@@ -21,7 +21,7 @@ jobs:
     - name: download mikeros tools
       uses: arma-actions/mikero-tools@latest
     - name: Install deps
-      run: npm i
+      run: npm i --force
     - name: Build
       run: npm run buildAndPack
     - name: Zip Artifacts
