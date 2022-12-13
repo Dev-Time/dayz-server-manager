@@ -13,15 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
+        node-version: '18'
+        cache: 'npm'
     - name: download mikeros tools
       uses: arma-actions/mikero-tools@latest
     - name: Install deps
-      run: npm i --force
+      run: npm i
     - name: Build
       run: npm run buildAndPack
     - name: Zip Artifacts
