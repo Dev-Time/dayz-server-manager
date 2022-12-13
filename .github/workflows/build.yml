@@ -17,7 +17,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '14'
         cache: 'npm'
     - name: download mikeros tools
       uses: arma-actions/mikero-tools@latest
