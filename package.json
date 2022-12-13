@@ -93,7 +93,7 @@
     "@types/sinon": "^10.0.0",
     "@types/sinon-chai": "^3.2.5",
     "@types/table": "^6.0.0",
-    "@types/tail": "2.0.0",
+    "@types/tail": "2.2.1",
     "@types/ws": "^7.4.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
@@ -126,6 +126,6 @@
     "fs-extra": "^9.1.0",
     "node-schedule": "2.0.0",
     "reflect-metadata": "0.1.13",
-    "tail": "2.2.2"
+    "tail": "2.2.4"
   }
 }
