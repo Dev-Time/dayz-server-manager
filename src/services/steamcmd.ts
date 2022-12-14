@@ -351,9 +351,9 @@ export class SteamCMD implements IService {
             this.log.log(LogLevel.INFO, `Copying ${modName} key ${keyName}`);
             const target = path.join(keysFolder, keyName);
             if (fs.existsSync(target)) {
-                await this.delay(100);
+                await this.delay(500);
                 fs.unlinkSync(target);
-                await this.delay(100);
+                await this.delay(500);
             }
             await fs.promises.copyFile(key, target);
         }
