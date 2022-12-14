@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^11.2.7",
-    "@types/better-sqlite3": "^5.4.1",
+    "@types/better-sqlite3": "^7.0.0",
     "@types/chai": "^4.2.18",
     "@types/chai-as-promised": "^7.1.4",
     "@types/compression": "^1.7.0",
