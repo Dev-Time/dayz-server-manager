@@ -5,6 +5,16 @@
 tasks:
   - init: nvm install 14 && nvm use 14 && npm install
 
+github:
+  prebuilds:
+    branches: false
+    master: false
+    pullRequests: false
+    addBadge: true
+    addCheck: true
+    pullRequestsFromForks: false
+
+
 jetbrains:
   webstorm:
     plugins:
