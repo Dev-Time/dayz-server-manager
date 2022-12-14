@@ -65,7 +65,7 @@ export class CategoryRenderer implements ICellRendererAngularComp {
         'clothes',
         'containers',
         'tools',
-        'vehicleparts',
+        'vehiclesparts',
         'food',
     ];
 
@@ -566,21 +566,21 @@ export class TypesComponent implements OnInit {
         this.loading = true;
 
         try {
-            const core = await this.appCommon.fetchMissionFile('cfgEconomyCore.xml').toPromise();
-            this.coreXml = await xml.parseStringPromise(core);
-            const ceEntries = this.coreXml.economycore.ce;
+            // const core = await this.appCommon.fetchMissionFile('cfgEconomyCore.xml').toPromise();
+            // this.coreXml = await xml.parseStringPromise(core);
+            // const ceEntries = this.coreXml.economycore.classes;
             const typesFiles: string[] = ['db/types.xml'];
-            for (const ceEntry of ceEntries) {
-                const folder = ceEntry.$.folder as string;
-                for (const file of ceEntry.file) {
-                    const fileName = file.$.name as string;
-                    const fileType = file.$.type as string;
-
-                    if (fileType === 'types') {
-                        typesFiles.push(`${folder}${folder.endsWith('/') ? '' : '/'}${fileName}`);
-                    }
-                }
-            }
+            // for (const ceEntry of ceEntries) {
+            //     const folder = ceEntry.$.folder as string;
+            //     for (const file of ceEntry.file) {
+            //         const fileName = file.$.name as string;
+            //         const fileType = file.$.type as string;
+            //
+            //         if (fileType === 'types') {
+            //             typesFiles.push(`${folder}${folder.endsWith('/') ? '' : '/'}${fileName}`);
+            //         }
+            //     }
+            // }
 
             this.files = ((await Promise.all(typesFiles.map(async (x) => {
                 return {
