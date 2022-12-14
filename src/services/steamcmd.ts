@@ -210,11 +210,11 @@ export class SteamCMD implements IService {
         const names = metaContent.match(/name[\s]*=.*/g) ?? [];
         const modName = names.pop()?.split('=')[1]?.trim() ?? '';
         if (modName) {
-            return '@' + modName
+            return `@${modName
                 .replace(/\//g, '-')
                 .replace(/\\/g, '-')
                 .replace(/ /g, '-')
-                .replace(/[^a-zA-Z0-9\-_]/g, '');
+                .replace(/[^a-zA-Z0-9\-_]/g, '')}`;
         }
         return '';
     }
@@ -336,6 +336,10 @@ export class SteamCMD implements IService {
         }))).every((x) => x);
     }
 
+    private delay(time: number): Promise<void> {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
     private async copyModKeys(modId: string): Promise<boolean> {
         const keysFolder = path.join(this.manager.getServerPath(), 'keys');
         const modName = this.getWsModName(modId);
@@ -347,7 +351,9 @@ export class SteamCMD implements IService {
             this.log.log(LogLevel.INFO, `Copying ${modName} key ${keyName}`);
             const target = path.join(keysFolder, keyName);
             if (fs.existsSync(target)) {
+                await this.delay(100);
                 fs.unlinkSync(target);
+                await this.delay(100);
             }
             await fs.promises.copyFile(key, target);
         }
