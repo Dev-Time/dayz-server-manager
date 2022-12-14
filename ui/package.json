@@ -43,7 +43,7 @@
         "chart.js": "2.9.4",
         "leaflet": "1.7.1",
         "ngx-gauge": "3.0.0",
-        "object-hash": "2.0.3",
+        "object-hash": "2.2.0",
         "reflect-metadata": "0.1.13",
         "rxjs": "6.6.7",
         "stream": "0.0.2",
