@@ -14,7 +14,7 @@
   "rollbackPrs": true,
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "major", "lockFileMaintenance"],
       "automerge": true
     }
   ],
