@@ -119,10 +119,7 @@ export class MapComponent implements OnInit, OnDestroy {
         ['airLayer', new LayerContainer('Air')],
     ]);
 
-    public constructor(
-        public http: HttpClient,
-        public appCommon: AppCommonService,
-    ) {}
+    public constructor(public http: HttpClient, public appCommon: AppCommonService) {}
 
     public ngOnDestroy(): void {
         if (!this.onDestroy.closed) {
@@ -137,22 +134,15 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private async init(): Promise<void> {
-
-        this.appCommon.SERVER_INFO
-            .asObservable()
-            .pipe(
-                takeUntil(this.onDestroy),
-            )
-            .subscribe(
-                (x?: ServerInfo) => {
-                    if (x?.worldName && x.worldName !== this.mapName) {
-                        void this.setUpWorld(x.worldName.toLowerCase());
-                    }
-                },
-            );
+        this.appCommon.SERVER_INFO.asObservable()
+            .pipe(takeUntil(this.onDestroy))
+            .subscribe((x?: ServerInfo) => {
+                if (x?.worldName && x.worldName !== this.mapName) {
+                    void this.setUpWorld(x.worldName.toLowerCase());
+                }
+            });
 
         await this.appCommon.fetchServerInfo().toPromise();
-
     }
 
     private createBaseLayers(): void {
@@ -160,9 +150,13 @@ export class MapComponent implements OnInit, OnDestroy {
         this.baseLayers = {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             Satelite: tileLayer(
-                `${this.mapHost}/${this.mapName}/${this.info!.tilePattern ?? 'tiles/{z}/{x}/{y}.png'}`,
+                `${this.mapHost}/${this.mapName}/${
+                    this.info!.tilePattern ?? 'tiles/{z}/{x}/{y}.png'
+                }`,
                 {
-                    attribution: `Leaflet${this.info!.attribution ? `, ${this.info!.attribution}` : ''}`,
+                    attribution: `Leaflet${
+                        this.info!.attribution ? `, ${this.info!.attribution}` : ''
+                    }`,
                     bounds: [
                         [0, 0],
                         [bounds.lat, bounds.lng],
@@ -173,12 +167,9 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private async setUpWorld(name: string): Promise<void> {
-
         this.mapName = name;
         const urlBase = `${this.mapHost}/${this.mapName}`;
-        this.info = (await this.http.get(
-            `${urlBase}/data.json`,
-        ).toPromise()) as MapInfo;
+        this.info = (await this.http.get(`${urlBase}/data.json`).toPromise()) as MapInfo;
         this.mapScale = Math.ceil(
             Math.log(
                 this.info!.worldSize / ((this.info!.tileSize ?? 256) / (this.info!.scale ?? 1)),
@@ -187,7 +178,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
         this.options = {
             layers: [],
-            zoom: this.info.defaultZoom ?? (this.info.minZoom ?? 1),
+            zoom: this.info.defaultZoom ?? this.info.minZoom ?? 1,
             center: [0, 0],
             minZoom: this.info.minZoom ?? 1,
             maxZoom: this.info.maxZoom ?? 7,
@@ -210,10 +201,7 @@ export class MapComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.layerControl = control.layers(
-            this.baseLayers,
-            overlays,
-        );
+        this.layerControl = control.layers(this.baseLayers, overlays);
         this.map?.addControl(this.layerControl);
     }
 
@@ -231,7 +219,6 @@ export class MapComponent implements OnInit, OnDestroy {
         }
         const showTooltipAt = 4;
         const newZoom = this.map.getZoom();
-
 
         const locationLayer = this.layers.get('locationLayer')!.layer;
         if (newZoom < showTooltipAt && (!this.curZoom || this.curZoom >= showTooltipAt)) {
@@ -252,7 +239,6 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private createLocations(): void {
-
         const locationLayer = this.layers.get('locationLayer')!;
         if (locationLayer.markers.length) {
             locationLayer.markers.forEach((x) => {
@@ -266,23 +252,18 @@ export class MapComponent implements OnInit, OnDestroy {
                 const pos = this.unproject([x.position[0], this.info!.worldSize - x.position[1]]);
                 const { name, icon } = this.getLocationTooltip(x);
 
-                const t = tooltip(
-                    {
-                        permanent: true,
-                        direction: 'bottom',
-                    },
-                ).setContent(name);
+                const t = tooltip({
+                    permanent: true,
+                    direction: 'bottom',
+                }).setContent(name);
 
-                const m = marker(
-                    pos,
-                    {
-                        icon: divIcon({
-                            html: `<i class="fa fa-${icon} fa-lg"></i>`,
-                            iconSize: [50, 50],
-                            className: 'locationIcon',
-                        }),
-                    },
-                ).bindTooltip(t);
+                const m = marker(pos, {
+                    icon: divIcon({
+                        html: `<i class="fa fa-${icon} fa-lg"></i>`,
+                        iconSize: [50, 50],
+                        className: 'locationIcon',
+                    }),
+                }).bindTooltip(t);
 
                 locationLayer.markers.push({
                     marker: m,
@@ -293,7 +274,6 @@ export class MapComponent implements OnInit, OnDestroy {
                 locationLayer.layer.addLayer(m);
             }
         }
-
     }
 
     public onMapReady(map: LeafletMap): void {
@@ -320,31 +300,25 @@ export class MapComponent implements OnInit, OnDestroy {
 
         this.zoomChange();
 
-        this.appCommon.getApiFetcher('INGAME_PLAYERS').latestData
-            .pipe(
-                takeUntil(this.onDestroy),
-            )
-            .subscribe(
-                (data) => {
-                    if (data) {
-                        const players = (data as any).value;
-                        this.updatePlayers(players);
-                    }
-                },
-            );
+        this.appCommon
+            .getApiFetcher('INGAME_PLAYERS')
+            .latestData.pipe(takeUntil(this.onDestroy))
+            .subscribe((data) => {
+                if (data) {
+                    const players = (data as any).value;
+                    this.updatePlayers(players);
+                }
+            });
 
-        this.appCommon.getApiFetcher('INGAME_VEHICLES').latestData
-            .pipe(
-                takeUntil(this.onDestroy),
-            )
-            .subscribe(
-                (data) => {
-                    if (data) {
-                        const vehicles = (data as any).value;
-                        this.updateVehicles(vehicles);
-                    }
-                },
-            );
+        this.appCommon
+            .getApiFetcher('INGAME_VEHICLES')
+            .latestData.pipe(takeUntil(this.onDestroy))
+            .subscribe((data) => {
+                if (data) {
+                    const vehicles = (data as any).value;
+                    this.updateVehicles(vehicles);
+                }
+            });
     }
 
     private getLocationTooltip(x: Location): { name: string; icon: string } {
@@ -389,7 +363,11 @@ export class MapComponent implements OnInit, OnDestroy {
             if (x.cfgName.includes('_')) {
                 const nameSplits = x.cfgName.split('_').filter((part) => !!part);
 
-                if (['local', 'settlement', 'marine', 'ruin', 'camp', 'hill'].includes(nameSplits[0].toLowerCase())) {
+                if (
+                    ['local', 'settlement', 'marine', 'ruin', 'camp', 'hill'].includes(
+                        nameSplits[0].toLowerCase(),
+                    )
+                ) {
                     nameSplits.splice(0, 1);
                 }
 
@@ -424,25 +402,19 @@ export class MapComponent implements OnInit, OnDestroy {
             });
 
         for (const x of players) {
-
             const pos = x.position.split(' ').map((coord) => Number(coord));
-            const t = tooltip(
-                {
-                    permanent: true,
-                    direction: 'bottom',
-                },
-            ).setContent(x.name);
+            const t = tooltip({
+                permanent: true,
+                direction: 'bottom',
+            }).setContent(x.name);
 
-            const m = marker(
-                this.unproject([pos[0], this.info!.worldSize - pos[2]]),
-                {
-                    icon: divIcon({
-                        html: `<i class="fa fa-user fa-lg"></i>`,
-                        iconSize: [50, 50],
-                        className: 'locationIcon',
-                    }),
-                },
-            ).bindTooltip(t);
+            const m = marker(this.unproject([pos[0], this.info!.worldSize - pos[2]]), {
+                icon: divIcon({
+                    html: `<i class="fa fa-user fa-lg"></i>`,
+                    iconSize: [50, 50],
+                    className: 'locationIcon',
+                }),
+            }).bindTooltip(t);
 
             layer.markers.push({
                 marker: m,
@@ -469,17 +441,14 @@ export class MapComponent implements OnInit, OnDestroy {
         }
 
         for (const x of vehicles) {
-
             const pos = x.position.split(' ').map((coord) => Number(coord));
-            const t = tooltip(
-                {
-                    permanent: true,
-                    direction: 'bottom',
-                },
-            ).setContent(x.type);
+            const t = tooltip({
+                permanent: true,
+                direction: 'bottom',
+            }).setContent(x.type);
 
             let layer: LayerContainer = layerGround;
-            let iconClass: string = 'fa fa-car fa-lg';
+            let iconClass = 'fa fa-car fa-lg';
 
             if (x.category === 'AIR') {
                 layer = layerAir;
@@ -489,16 +458,13 @@ export class MapComponent implements OnInit, OnDestroy {
                 iconClass = 'fa fa-ship fa-lg';
             }
 
-            const m = marker(
-                this.unproject([pos[0], this.info!.worldSize - pos[2]]),
-                {
-                    icon: divIcon({
-                        html: `<i class="${iconClass}"></i>`,
-                        iconSize: [50, 50],
-                        className: 'locationIcon',
-                    }),
-                },
-            ).bindTooltip(t);
+            const m = marker(this.unproject([pos[0], this.info!.worldSize - pos[2]]), {
+                icon: divIcon({
+                    html: `<i class="${iconClass}"></i>`,
+                    iconSize: [50, 50],
+                    className: 'locationIcon',
+                }),
+            }).bindTooltip(t);
 
             layer.markers.push({
                 marker: m,

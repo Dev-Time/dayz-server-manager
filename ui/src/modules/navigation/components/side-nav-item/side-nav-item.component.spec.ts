@@ -8,9 +8,7 @@ import { SideNavItemComponent } from './side-nav-item.component';
 const mockSideNavItem = new MockSideNavItem();
 
 @Component({
-    template: `
-        <sb-side-nav-item [sideNavItem]="sideNavItem"></sb-side-nav-item>
-    `,
+    template: ` <sb-side-nav-item [sideNavItem]="sideNavItem"></sb-side-nav-item> `,
 })
 class TestHostComponent {
     sideNavItem = mockSideNavItem;

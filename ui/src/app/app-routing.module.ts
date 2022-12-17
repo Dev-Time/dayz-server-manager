@@ -45,7 +45,9 @@ const routes: Routes = [
         path: 'dashboard/maintenance',
         canActivate: [AuthGuard],
         loadChildren: () =>
-            import('@modules/maintenance/maintenance-routing.module').then((m) => m.MaintenanceRoutingModule),
+            import('@modules/maintenance/maintenance-routing.module').then(
+                (m) => m.MaintenanceRoutingModule,
+            ),
     },
     {
         path: 'dashboard/settings',
@@ -56,8 +58,7 @@ const routes: Routes = [
     {
         path: 'dashboard/map',
         canActivate: [AuthGuard],
-        loadChildren: () =>
-            import('@modules/map/map-routing.module').then((m) => m.MapRoutingModule),
+        loadChildren: () => import('@modules/map/map-routing.module').then((m) => m.MapRoutingModule),
     },
     {
         path: 'dashboard/files',
@@ -92,14 +93,11 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(
-            routes,
-            {
-                relativeLinkResolution: 'legacy',
-                onSameUrlNavigation: 'reload',
-                // enableTracing: true,
-            },
-        ),
+        RouterModule.forRoot(routes, {
+            relativeLinkResolution: 'legacy',
+            onSameUrlNavigation: 'reload',
+            // enableTracing: true,
+        }),
         AuthModule,
     ],
     exports: [RouterModule],

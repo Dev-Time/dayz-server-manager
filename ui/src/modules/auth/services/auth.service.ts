@@ -13,10 +13,7 @@ export class AuthService {
     private authHeader: string | null = null;
     private level: UserLevel | null = null;
 
-    public constructor(
-        private httpClient: HttpClient,
-        private router: Router,
-    ) {
+    public constructor(private httpClient: HttpClient, private router: Router) {
         // eslint-disable-next-line no-undef
         this.authHeader = localStorage.getItem(AuthService.AUTH_STORAGE_KEY);
         // eslint-disable-next-line no-undef
@@ -53,18 +50,16 @@ export class AuthService {
     }
 
     private async validateLogin(auth: string, remember?: boolean): Promise<void> {
-        const resp = await this.httpClient.post(
-            `${environment.host}/api/login`,
-            null,
-            {
+        const resp = await this.httpClient
+            .post(`${environment.host}/api/login`, null, {
                 headers: {
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     Authorization: auth,
                 },
                 observe: 'response',
                 responseType: 'text',
-            },
-        ).toPromise();
+            })
+            .toPromise();
 
         if (!resp.ok) {
             throw new Error('Login failed');

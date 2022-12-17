@@ -11,7 +11,6 @@ import { NavigationModule } from '@modules/navigation/navigation.module';
 /* Containers */
 import * as auditContainers from './containers';
 
-
 /* Services */
 import * as auditServices from './services';
 import { PlayersModule } from '@modules/players/players.module';
@@ -27,17 +26,8 @@ import { AuditTableComponent } from './components/audit-table/audit-table.compon
         NavigationModule,
         PlayersModule,
     ],
-    providers: [
-        DecimalPipe,
-        ...auditServices.services,
-    ],
-    declarations: [
-        ...auditContainers.containers,
-        AuditTableComponent,
-    ],
-    exports: [
-        ...auditContainers.containers,
-        AuditTableComponent,
-    ],
+    providers: [DecimalPipe, ...auditServices.services],
+    declarations: [...auditContainers.containers, AuditTableComponent],
+    exports: [...auditContainers.containers, AuditTableComponent],
 })
 export class AuditModule {}

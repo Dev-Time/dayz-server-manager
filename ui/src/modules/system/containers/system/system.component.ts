@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MetricType, MetricWrapper, MetricTypeEnum } from '@common/models';
+import { MetricType, MetricTypeEnum, MetricWrapper } from '@common/models';
 import { ApiFetcher, AppCommonService } from '@common/services';
 
 @Component({
@@ -10,9 +10,7 @@ import { ApiFetcher, AppCommonService } from '@common/services';
 })
 export class SystemComponent implements OnInit {
 
-    public constructor(
-        public commonService: AppCommonService,
-    ) {}
+    public constructor(public commonService: AppCommonService) {}
 
     public ngOnInit(): void {
         // ignore

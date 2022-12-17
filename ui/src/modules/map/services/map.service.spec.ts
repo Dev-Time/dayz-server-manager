@@ -11,5 +11,4 @@ describe('MapService', () => {
         });
         mapService = TestBed.inject(MapService);
     });
-
 });

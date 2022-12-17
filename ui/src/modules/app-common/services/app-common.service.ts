@@ -1,6 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Config, LogType, LogTypeEnum, MetricType, MetricTypeEnum, MetricWrapper, ServerInfo, SystemReport, isSameServerInfo } from '@common/models';
+import {
+    Config,
+    isSameServerInfo,
+    LogType,
+    LogTypeEnum,
+    MetricType,
+    MetricTypeEnum,
+    MetricWrapper,
+    ServerInfo,
+    SystemReport,
+} from '@common/models';
 import { AuthService } from '@modules/auth/services';
 import Chart from 'chart.js';
 import { environment } from 'environments/environment';
@@ -58,22 +68,18 @@ export class ApiFetcher<K extends ApiFetcherTypes, T extends Timestamped> {
     }
 
     private getLastOf(obs: Observable<T[] | null>): Observable<T | null> {
-        return obs
-            .pipe(
-                map((x) => {
-                    if (x?.length) {
-                        return x[x.length - 1];
-                    }
-                    return null;
-                }),
-            );
+        return obs.pipe(
+            map((x) => {
+                if (x?.length) {
+                    return x[x.length - 1];
+                }
+                return null;
+            }),
+        );
     }
 
     public get lastUpdate(): Observable<number> {
-        return this.getLastOf(this.data$.asObservable())
-            .pipe(
-                map((x) => x?.timestamp ?? 0),
-            );
+        return this.getLastOf(this.data$.asObservable()).pipe(map((x) => x?.timestamp ?? 0));
     }
 
     public get data(): Observable<T[] | null> {
@@ -85,18 +91,12 @@ export class ApiFetcher<K extends ApiFetcherTypes, T extends Timestamped> {
     }
 
     public triggerUpdate(since?: number): void {
-        this.fetchFromServer(since).subscribe(
-            (next) => {
-                if (next) {
-                    this.data$.next([
-                        ...(this.data$.value ?? []),
-                        ...next,
-                    ]);
-                    next.forEach((x) => this.dataInserted$.next(x));
-                }
-            },
-            console.error,
-        );
+        this.fetchFromServer(since).subscribe((next) => {
+            if (next) {
+                this.data$.next([...(this.data$.value ?? []), ...next]);
+                next.forEach((x) => this.dataInserted$.next(x));
+            }
+        }, console.error);
     }
 
     private getAuthHeaders(): { [k: string]: string } {
@@ -104,19 +104,19 @@ export class ApiFetcher<K extends ApiFetcherTypes, T extends Timestamped> {
     }
 
     private fetchFromServer(since?: number): Observable<T[]> {
-        return this.httpClient.get<T>(
-            this.apiPath,
-            {
+        return this.httpClient
+            .get<T>(this.apiPath, {
                 params: {
                     type: this.dataType,
                     since: String(since ?? 0),
                 },
                 headers: this.getAuthHeaders(),
                 withCredentials: true,
-            },
-        ).pipe(
-            catchError((e) => processError(e, `Failed to fetch ${this.dataType} from ${this.apiPath}`)),
-        );
+            })
+            .pipe(
+                catchError((e) =>
+                    processError(e, `Failed to fetch ${this.dataType} from ${this.apiPath}`)),
+            );
     }
 
 }
@@ -125,51 +125,24 @@ export class ApiFetcher<K extends ApiFetcherTypes, T extends Timestamped> {
 export class AppCommonService {
 
     /* eslint-disable @typescript-eslint/indent */
-    private apiFetchers = new Map<
-        ApiFetcherTypes,
-        ApiFetcher<
-            ApiFetcherTypes,
-            Timestamped
-        >
-    >();
+    private apiFetchers = new Map<ApiFetcherTypes, ApiFetcher<ApiFetcherTypes, Timestamped>>();
     /* eslint-enable @typescript-eslint/indent */
 
     public readonly SERVER_INFO = new BehaviorSubject<ServerInfo | undefined>(undefined);
 
     private timer: Subscription | undefined;
-    private lastUpdate$: number = 0;
+    private lastUpdate$ = 0;
 
     private refreshRate$ = 30;
 
-    public constructor(
-        private httpClient: HttpClient,
-        private auth: AuthService,
-    ) {
-        (Object.keys(LogTypeEnum) as LogType[]).forEach(
-            (x) => {
-                this.apiFetchers.set(
-                    x,
-                    new ApiFetcher<typeof x, any>(
-                        this.httpClient,
-                        this.auth,
-                        x,
-                    ),
-                );
-            },
-        );
+    public constructor(private httpClient: HttpClient, private auth: AuthService) {
+        (Object.keys(LogTypeEnum) as LogType[]).forEach((x) => {
+            this.apiFetchers.set(x, new ApiFetcher<typeof x, any>(this.httpClient, this.auth, x));
+        });
 
-        (Object.keys(MetricTypeEnum) as MetricType[]).forEach(
-            (x) => {
-                this.apiFetchers.set(
-                    x,
-                    new ApiFetcher<typeof x, any>(
-                        this.httpClient,
-                        this.auth,
-                        x,
-                    ),
-                );
-            },
-        );
+        (Object.keys(MetricTypeEnum) as MetricType[]).forEach((x) => {
+            this.apiFetchers.set(x, new ApiFetcher<typeof x, any>(this.httpClient, this.auth, x));
+        });
 
         void this.fetchServerInfo().toPromise();
         this.adjustRefreshRate(this.refreshRate$);
@@ -191,14 +164,15 @@ export class AppCommonService {
         }
 
         if (rate && rate > 0) {
-            this.timer = timer(0, this.refreshRate$ * 1000)
-                .subscribe(() => {
-                    this.triggerUpdate();
-                });
+            this.timer = timer(0, this.refreshRate$ * 1000).subscribe(() => {
+                this.triggerUpdate();
+            });
         }
     }
 
-    public getApiFetcher<K extends ApiFetcherTypes, T extends Timestamped>(type: ApiFetcherTypes): ApiFetcher<K, T> {
+    public getApiFetcher<K extends ApiFetcherTypes, T extends Timestamped>(
+        type: ApiFetcherTypes,
+    ): ApiFetcher<K, T> {
         return this.apiFetchers.get(type)! as unknown as ApiFetcher<K, T>;
     }
 
@@ -214,15 +188,12 @@ export class AppCommonService {
     }
 
     public fetchManagerConfig(): Observable<Config> {
-        return this.httpClient.get<Config>(
-            `${environment.host}/api/config`,
-            {
+        return this.httpClient
+            .get<Config>(`${environment.host}/api/config`, {
                 headers: this.getAuthHeaders(),
                 withCredentials: true,
-            },
-        ).pipe(
-            catchError((e) => processError(e)),
-        );
+            })
+            .pipe(catchError((e) => processError(e)));
     }
 
     public updateManagerConfig(config: Config): Observable<any> {
@@ -238,8 +209,10 @@ export class AppCommonService {
         );
     }
 
-    public chart(type: 'system' | 'process' | 'manager', metric: 'cpu' | 'ram'): Observable<Chart.ChartConfiguration> {
-
+    public chart(
+        type: 'system' | 'process' | 'manager',
+        metric: 'cpu' | 'ram',
+    ): Observable<Chart.ChartConfiguration> {
         const dataMapper = {
             system: {
                 cpu: (x: MetricWrapper<SystemReport>) => {
@@ -254,7 +227,9 @@ export class AppCommonService {
                     return x.value.server?.cpuTotal ?? 0;
                 },
                 ram: (x: MetricWrapper<SystemReport>) => {
-                    return Math.round(((x.value.server?.mem ?? 0) / x.value.system.memTotal!) * 100);
+                    return Math.round(
+                        ((x.value.server?.mem ?? 0) / x.value.system.memTotal!) * 100,
+                    );
                 },
             },
             manager: {
@@ -267,17 +242,22 @@ export class AppCommonService {
             },
         }[type][metric];
 
-        return this.getApiFetcher<MetricTypeEnum.SYSTEM, MetricWrapper<SystemReport>>(MetricTypeEnum.SYSTEM)!.data.pipe(
+        return this.getApiFetcher<MetricTypeEnum.SYSTEM, MetricWrapper<SystemReport>>(
+            MetricTypeEnum.SYSTEM,
+        )!.data.pipe(
             map((values) => {
                 let last = 0;
                 const lastTime = values?.length ? values[values.length - 1].timestamp : 0;
-                const data = values?.filter((x) => {
-                    const filtered = (((x.timestamp - last) > 180000) && ((lastTime - x.timestamp) < 3 * 60 * 60 * 1000));
-                    if (filtered) {
-                        last = x.timestamp;
-                    }
-                    return filtered;
-                }) ?? [];
+                const data
+                    = values?.filter((x) => {
+                        const filtered
+                            = x.timestamp - last > 180000
+                            && lastTime - x.timestamp < 3 * 60 * 60 * 1000;
+                        if (filtered) {
+                            last = x.timestamp;
+                        }
+                        return filtered;
+                    }) ?? [];
                 return {
                     type: 'line',
                     data: {
@@ -339,51 +319,43 @@ export class AppCommonService {
                 };
             }),
         );
-
     }
 
     public fetchServerInfo(): Observable<ServerInfo> {
-        return this.httpClient.get<ServerInfo>(
-            `${environment.host}/api/serverinfo`,
-            {
+        return this.httpClient
+            .get<ServerInfo>(`${environment.host}/api/serverinfo`, {
                 headers: this.getAuthHeaders(),
                 withCredentials: true,
-            },
-        ).pipe(
-            catchError((e) => processError(e)),
-            tap((x) => {
-                if (!isSameServerInfo(x, this.SERVER_INFO.getValue())) {
-                    this.SERVER_INFO.next(x);
-                }
-            }),
-        );
+            })
+            .pipe(
+                catchError((e) => processError(e)),
+                tap((x) => {
+                    if (!isSameServerInfo(x, this.SERVER_INFO.getValue())) {
+                        this.SERVER_INFO.next(x);
+                    }
+                }),
+            );
     }
 
     public fetchMissionFile(file: string): Observable<string> {
-        return this.httpClient.get(
-            `${environment.host}/api/readmissionfile`,
-            {
-                headers: this.getAuthHeaders(),
-                withCredentials: true,
-                params: {
-                    file,
-                },
-                responseType: 'text',
+        return this.httpClient.get(`${environment.host}/api/readmissionfile`, {
+            headers: this.getAuthHeaders(),
+            withCredentials: true,
+            params: {
+                file,
             },
-        );
+            responseType: 'text',
+        });
     }
 
     public fetchMissionDir(dir: string): Observable<string[]> {
-        return this.httpClient.get<string[]>(
-            `${environment.host}/api/readmissiondir`,
-            {
-                headers: this.getAuthHeaders(),
-                withCredentials: true,
-                params: {
-                    dir,
-                },
+        return this.httpClient.get<string[]>(`${environment.host}/api/readmissiondir`, {
+            headers: this.getAuthHeaders(),
+            withCredentials: true,
+            params: {
+                dir,
             },
-        );
+        });
     }
 
     public updateMissionFile(file: string, content: string, withBackup?: boolean): Observable<any> {

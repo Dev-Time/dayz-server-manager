@@ -5,35 +5,29 @@ import { environment } from 'environments/environment';
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-
 @Injectable({ providedIn: 'root' })
 export class MaintenanceService {
 
-    public constructor(
-        private httpClient: HttpClient,
-        private auth: AuthService,
-    ) {
-    }
+    public constructor(private httpClient: HttpClient, private auth: AuthService) {}
 
     private getAuthHeaders(): { [k: string]: string } {
         return this.auth.getAuthHeaders();
     }
 
     public execute(action: string, body?: any): Promise<boolean> {
-        return this.httpClient.post<any>(
-            `${environment.host}/api/${action}`,
-            body,
-            {
+        return this.httpClient
+            .post<any>(`${environment.host}/api/${action}`, body, {
                 headers: this.getAuthHeaders(),
                 observe: 'response',
                 withCredentials: true,
-            },
-        ).pipe(
-            map((x: HttpResponse<any>) => {
-                return !!x?.ok;
-            }),
-            catchError(() => of(false)),
-        ).toPromise();
+            })
+            .pipe(
+                map((x: HttpResponse<any>) => {
+                    return !!x?.ok;
+                }),
+                catchError(() => of(false)),
+            )
+            .toPromise();
     }
 
     public async updateServer(): Promise<boolean> {
@@ -67,6 +61,5 @@ export class MaintenanceService {
     public async restartServer(force?: boolean): Promise<boolean> {
         return this.execute('restart', { force });
     }
-
 
 }

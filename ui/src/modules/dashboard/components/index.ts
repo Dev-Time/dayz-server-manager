@@ -1,6 +1,6 @@
 import { DashboardCardsComponent } from './dashboard-cards/dashboard-cards.component';
-import { DashboardSystemComponent } from './dashboard-system/dashboard-system.component';
 import { DashboardPlayersComponent } from './dashboard-players/dashboard-players.component';
+import { DashboardSystemComponent } from './dashboard-system/dashboard-system.component';
 
 export const components = [
     DashboardCardsComponent,

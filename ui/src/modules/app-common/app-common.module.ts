@@ -25,7 +25,16 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
     imports: [CommonModule, RouterModule, HttpClientModule, ...thirdParty],
     providers: [...appCommonGuards.guards],
-    declarations: [...appCommonContainers.containers, ...appCommonComponents.components, DefaultValuePipe],
-    exports: [...appCommonContainers.containers, ...appCommonComponents.components, ...thirdParty, DefaultValuePipe],
+    declarations: [
+        ...appCommonContainers.containers,
+        ...appCommonComponents.components,
+        DefaultValuePipe,
+    ],
+    exports: [
+        ...appCommonContainers.containers,
+        ...appCommonComponents.components,
+        ...thirdParty,
+        DefaultValuePipe,
+    ],
 })
 export class AppCommonModule {}

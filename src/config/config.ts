@@ -346,10 +346,10 @@ export class ServerCfg {
             template: string;
         };
     } = {
-        DayZ: {
-            template: 'dayzOffline.chernarusplus',
-        },
-    };
+                DayZ: {
+                    template: 'dayzOffline.chernarusplus',
+                },
+            };
 
 
     /**
@@ -503,12 +503,12 @@ export class Config {
         userLevel: UserLevel;
         password: string;
     }[] = [
-        {
-            userId: 'admin',
-            userLevel: 'admin',
-            password: 'admin',
-        },
-    ];
+                {
+                    userId: 'admin',
+                    userLevel: 'admin',
+                    password: 'admin',
+                },
+            ];
 
     // /////////////////////////// WEB ////////////////////////////////////////
     /**

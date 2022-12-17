@@ -13,11 +13,11 @@ import { Subscription } from 'rxjs';
 })
 export class TopNavComponent implements OnInit, OnDestroy {
 
-    public refreshRate: string = '30';
+    public refreshRate = '30';
 
     public subscription: Subscription = new Subscription();
     public breadcrumbs!: Breadcrumb[];
-    public title: string = '';
+    public title = '';
 
     public constructor(
         private navigationService: NavigationService,

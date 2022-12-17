@@ -126,7 +126,7 @@ export class ConfigParser {
     }
 
 
-    public json2cfg(input: any, indent? : number): string {
+    public json2cfg(input: any, indent?: number): string {
         indent = indent || 0;
         const tabs = '\t'.repeat(indent);
         const output = [];

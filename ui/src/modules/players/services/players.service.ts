@@ -24,7 +24,11 @@ const compare = (v1: number | string, v2: number | string): -1 | 1 | 0 => {
     return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 };
 
-const sort = (players: RconPlayer[], column: 'name' | 'id' | 'ping', direction: string): RconPlayer[] => {
+const sort = (
+    players: RconPlayer[],
+    column: 'name' | 'id' | 'ping',
+    direction: string,
+): RconPlayer[] => {
     if (direction === '') {
         return players;
     }
@@ -62,11 +66,7 @@ export class PlayersService {
     protected currentPlayers: RconPlayer[] = [];
     protected sub!: Subscription;
 
-    public constructor(
-        protected pipe: DecimalPipe,
-        protected appCommon: AppCommonService,
-    ) {
-
+    public constructor(protected pipe: DecimalPipe, protected appCommon: AppCommonService) {
         this.listenToPlayerChanges();
 
         this._search$
@@ -86,17 +86,16 @@ export class PlayersService {
     }
 
     protected listenToPlayerChanges(): void {
-        this.sub = this.appCommon.getApiFetcher<
-        MetricTypeEnum.PLAYERS,
-        MetricWrapper<RconPlayer[]>
-        >(MetricTypeEnum.PLAYERS)!.latestData.subscribe(
-            (players) => {
+        this.sub = this.appCommon
+            .getApiFetcher<MetricTypeEnum.PLAYERS, MetricWrapper<RconPlayer[]>>(
+                MetricTypeEnum.PLAYERS,
+        )!
+            .latestData.subscribe((players) => {
                 if (players?.value) {
                     this.currentPlayers = players.value;
                     this._search$.next();
                 }
-            },
-        );
+            });
     }
 
     public get players$(): Observable<RconPlayer[]> {
@@ -161,7 +160,7 @@ export class PlayersService {
         const total = players.length;
 
         // 3. paginate
-        players = players.slice((page - 1) * pageSize, ((page - 1) * pageSize) + pageSize);
+        players = players.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
         return of({ players, total });
     }
 
@@ -170,19 +169,16 @@ export class PlayersService {
 @Injectable({ providedIn: 'root' })
 export class AllPlayersService extends PlayersService {
 
-    public constructor(
-        protected pipe: DecimalPipe,
-        protected appCommon: AppCommonService,
-    ) {
+    public constructor(protected pipe: DecimalPipe, protected appCommon: AppCommonService) {
         super(pipe, appCommon);
     }
 
     protected listenToPlayerChanges(): void {
-        this.sub = this.appCommon.getApiFetcher<
-        MetricTypeEnum.PLAYERS,
-        MetricWrapper<RconPlayer[]>
-        >(MetricTypeEnum.PLAYERS).data.subscribe(
-            (metrics) => {
+        this.sub = this.appCommon
+            .getApiFetcher<MetricTypeEnum.PLAYERS, MetricWrapper<RconPlayer[]>>(
+                MetricTypeEnum.PLAYERS,
+        )
+            .data.subscribe((metrics) => {
                 if (metrics?.length) {
                     const guids = new Set<string>();
                     const players: RconPlayer[] = [];
@@ -201,8 +197,7 @@ export class AllPlayersService extends PlayersService {
                     this.currentPlayers = players;
                     this._search$.next();
                 }
-            },
-        );
+            });
     }
 
 }

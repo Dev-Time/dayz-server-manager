@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    NgZone,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { LogMessage } from '@common/models';
 import { Observable, Subscription } from 'rxjs';
 
@@ -10,30 +19,25 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class LogMonitorComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input() public title: string = 'Logs';
+    @Input() public title = 'Logs';
     @Input() public logStream!: Observable<LogMessage>;
     @Input() public history: LogMessage[] = [];
     @ViewChild('scrollView') public container!: any;
 
-    public lockToEnd: boolean = true;
+    public lockToEnd = true;
 
     public messages: LogMessage[] = [];
     public sub?: Subscription;
 
-    public constructor(
-        private zone: NgZone,
-    ) { }
+    public constructor(private zone: NgZone) {}
 
     public ngOnInit(): void {
         this.messages = [...(this.history ?? [])];
         this.scrollToBottom();
-        this.sub = this.logStream.subscribe(
-            (x) => {
-                this.messages.push(x);
-                this.scrollToBottom();
-            },
-            console.error,
-        );
+        this.sub = this.logStream.subscribe((x) => {
+            this.messages.push(x);
+            this.scrollToBottom();
+        }, console.error);
     }
 
     public ngOnDestroy(): void {

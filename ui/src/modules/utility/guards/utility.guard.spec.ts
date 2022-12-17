@@ -3,15 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { UtilityGuard } from './utility.guard';
 
 describe('Utility Guards', () => {
-
     let utilityGuard: UtilityGuard;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [],
-            providers: [
-                UtilityGuard,
-            ],
+            providers: [UtilityGuard],
         });
         utilityGuard = TestBed.inject(UtilityGuard);
     });
@@ -23,5 +20,4 @@ describe('Utility Guards', () => {
             });
         });
     });
-
 });

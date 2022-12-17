@@ -12,7 +12,6 @@ import { NavigationModule } from '@modules/navigation/navigation.module';
 /* Containers */
 import * as containers from './containers';
 
-
 /* Services */
 import * as services from './services';
 import { LogMonitorComponent } from './components/log-monitor/log-monitor.component';
@@ -28,17 +27,8 @@ import { LogMonitorComponent } from './components/log-monitor/log-monitor.compon
         AppCommonModule,
         NavigationModule,
     ],
-    providers: [
-        DecimalPipe,
-        ...services.services,
-    ],
-    declarations: [
-        ...containers.containers,
-        LogMonitorComponent,
-    ],
-    exports: [
-        ...containers.containers,
-        LogMonitorComponent,
-    ],
+    providers: [DecimalPipe, ...services.services],
+    declarations: [...containers.containers, LogMonitorComponent],
+    exports: [...containers.containers, LogMonitorComponent],
 })
 export class LogsModule {}

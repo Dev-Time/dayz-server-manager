@@ -20,12 +20,7 @@ import * as navigationServices from './services';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        AppCommonModule,
-    ],
+    imports: [CommonModule, FormsModule, RouterModule, AppCommonModule],
     providers: [...navigationServices.services],
     declarations: [
         ...navigationContainers.containers,

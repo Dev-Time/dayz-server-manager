@@ -29,19 +29,12 @@ import * as playersServices from './services';
         AppCommonModule,
         NavigationModule,
     ],
-    providers: [
-        DecimalPipe,
-        ...playersServices.services,
-        ...playersDirectives.directives,
-    ],
+    providers: [DecimalPipe, ...playersServices.services, ...playersDirectives.directives],
     declarations: [
         ...playersContainers.containers,
         ...playersComponents.components,
         ...playersDirectives.directives,
     ],
-    exports: [
-        ...playersContainers.containers,
-        ...playersComponents.components,
-    ],
+    exports: [...playersContainers.containers, ...playersComponents.components],
 })
 export class PlayersModule {}

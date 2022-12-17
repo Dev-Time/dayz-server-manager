@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MetricType, MetricTypeEnum, MetricWrapper, RconPlayer, ServerState, SystemReport } from '@common/models';
+import {
+    MetricType,
+    MetricTypeEnum,
+    MetricWrapper,
+    RconPlayer,
+    ServerState,
+    SystemReport,
+} from '@common/models';
 import { ApiFetcher, AppCommonService } from '@common/services';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,9 +19,7 @@ import { map } from 'rxjs/operators';
 })
 export class DashboardCardsComponent implements OnInit {
 
-    public constructor(
-        public commonService: AppCommonService,
-    ) {}
+    public constructor(public commonService: AppCommonService) {}
 
     public ngOnInit(): void {
         // ignore

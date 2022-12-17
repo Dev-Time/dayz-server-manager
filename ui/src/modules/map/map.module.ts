@@ -11,7 +11,6 @@ import { NavigationModule } from '@modules/navigation/navigation.module';
 /* Containers */
 import * as containers from './containers';
 
-
 /* Services */
 import * as services from './services';
 
@@ -27,15 +26,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
         NavigationModule,
         LeafletModule,
     ],
-    providers: [
-        DecimalPipe,
-        ...services.services,
-    ],
-    declarations: [
-        ...containers.containers,
-    ],
-    exports: [
-        ...containers.containers,
-    ],
+    providers: [DecimalPipe, ...services.services],
+    declarations: [...containers.containers],
+    exports: [...containers.containers],
 })
 export class MapModule {}

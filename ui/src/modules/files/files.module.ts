@@ -11,7 +11,6 @@ import { NavigationModule } from '@modules/navigation/navigation.module';
 /* Containers */
 import { containers, renderers } from './containers';
 
-
 /* Services */
 import * as services from './services';
 import { PlayersModule } from '@modules/players/players.module';
@@ -27,22 +26,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
         AppCommonModule,
         NavigationModule,
         PlayersModule,
-        AgGridModule.withComponents([
-            ...renderers,
-        ]),
+        AgGridModule.withComponents([...renderers]),
         NgSelectModule,
     ],
-    providers: [
-        DecimalPipe,
-        ...services.services,
-    ],
-    declarations: [
-        ...containers,
-        ...renderers,
-    ],
-    exports: [
-        ...containers,
-        ...renderers,
-    ],
+    providers: [DecimalPipe, ...services.services],
+    declarations: [...containers, ...renderers],
+    exports: [...containers, ...renderers],
 })
 export class FilesModule {}

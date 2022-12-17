@@ -11,7 +11,6 @@ import { NavigationModule } from '@modules/navigation/navigation.module';
 /* Containers */
 import * as containers from './containers';
 
-
 /* Services */
 import * as services from './services';
 import { PlayersModule } from '@modules/players/players.module';
@@ -26,15 +25,8 @@ import { PlayersModule } from '@modules/players/players.module';
         NavigationModule,
         PlayersModule,
     ],
-    providers: [
-        DecimalPipe,
-        ...services.services,
-    ],
-    declarations: [
-        ...containers.containers,
-    ],
-    exports: [
-        ...containers.containers,
-    ],
+    providers: [DecimalPipe, ...services.services],
+    declarations: [...containers.containers],
+    exports: [...containers.containers],
 })
 export class SettingsModule {}

@@ -7,21 +7,11 @@ export const sideNavSections: SideNavSection[] = [
     },
     {
         text: 'DETAIL',
-        items: [
-            'system',
-            'players',
-            'audit',
-            'logs',
-            'maintenance',
-            'settings',
-            'map',
-        ],
+        items: ['system', 'players', 'audit', 'logs', 'maintenance', 'settings', 'map'],
     },
     {
         text: 'Files',
-        items: [
-            'types',
-        ],
+        items: ['types'],
     },
 ];
 

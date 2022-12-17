@@ -17,7 +17,7 @@ export class AppComponent {
             .pipe(filter((event) => event instanceof ChildActivationEnd))
             .subscribe((event) => {
                 // eslint-disable-next-line prefer-destructuring
-                let snapshot = ((event) as ChildActivationEnd).snapshot;
+                let snapshot = (event as ChildActivationEnd).snapshot;
                 while (snapshot.firstChild !== null) {
                     snapshot = snapshot.firstChild;
                 }

@@ -9,9 +9,7 @@ import { AppCommonService } from '@common/services';
 })
 export class DashboardSystemComponent implements OnInit {
 
-    public constructor(
-        public commonService: AppCommonService,
-    ) {}
+    public constructor(public commonService: AppCommonService) {}
 
     public ngOnInit(): void {
         // ignore

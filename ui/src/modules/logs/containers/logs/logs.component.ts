@@ -16,7 +16,7 @@ export class LogsComponent implements OnInit {
     public admLogs: LogMessage[] = [];
     public scriptLogs: LogMessage[] = [];
 
-    private activeTab$: number = 1;
+    private activeTab$ = 1;
     public get activeTab(): number {
         return this.activeTab$;
     }
@@ -26,9 +26,7 @@ export class LogsComponent implements OnInit {
         this.activeTab$ = tab;
     }
 
-    public constructor(
-        private appCommon: AppCommonService,
-    ) {
+    public constructor(private appCommon: AppCommonService) {
         this.rptLogs = this.getFetcher(LogTypeEnum.RPT).snapshot;
         this.admLogs = this.getFetcher(LogTypeEnum.ADM).snapshot;
         this.scriptLogs = this.getFetcher(LogTypeEnum.SCRIPT).snapshot;

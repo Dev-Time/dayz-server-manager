@@ -61,11 +61,7 @@ export class AuditService {
     protected currentAudits: AuditEvent[] = [];
     protected sub!: Subscription;
 
-    public constructor(
-        protected pipe: DecimalPipe,
-        protected appCommon: AppCommonService,
-    ) {
-
+    public constructor(protected pipe: DecimalPipe, protected appCommon: AppCommonService) {
         this.listenToPlayerChanges();
 
         this._search$
@@ -85,17 +81,14 @@ export class AuditService {
     }
 
     protected listenToPlayerChanges(): void {
-        this.sub = this.appCommon.getApiFetcher<
-        MetricTypeEnum.AUDIT,
-        AuditEvent
-        >(MetricTypeEnum.AUDIT).data.subscribe(
-            (audits) => {
+        this.sub = this.appCommon
+            .getApiFetcher<MetricTypeEnum.AUDIT, AuditEvent>(MetricTypeEnum.AUDIT)
+            .data.subscribe((audits) => {
                 if (audits?.length) {
                     this.currentAudits = audits;
                     this._search$.next();
                 }
-            },
-        );
+            });
     }
 
     public get audits$(): Observable<AuditEvent[]> {
@@ -160,7 +153,7 @@ export class AuditService {
         const total = audits.length;
 
         // 3. paginate
-        audits = audits.slice((page - 1) * pageSize, ((page - 1) * pageSize) + pageSize);
+        audits = audits.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
         return of({ audits, total });
     }
 

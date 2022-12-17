@@ -16,9 +16,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     public systemMetrics: MetricWrapper<SystemReport>[] = [];
 
-    public constructor(
-        public commonService: AppCommonService,
-    ) {}
+    public constructor(public commonService: AppCommonService) {}
 
     public ngOnDestroy(): void {
         if (this.componentDestroy) {
@@ -29,21 +27,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.commonService.getApiFetcher<
-        MetricTypeEnum.SYSTEM,
-        MetricWrapper<SystemReport>
-        >(MetricTypeEnum.SYSTEM).data
-            .pipe(
-                takeUntil(this.componentDestroy!),
-            )
-            .subscribe(
-                (next) => {
-                    if (next) {
-                        this.systemMetrics = next;
-                    }
-                },
-                console.error,
-            );
+        this.commonService
+            .getApiFetcher<MetricTypeEnum.SYSTEM, MetricWrapper<SystemReport>>(
+                MetricTypeEnum.SYSTEM,
+        )
+            .data.pipe(takeUntil(this.componentDestroy!))
+            .subscribe((next) => {
+                if (next) {
+                    this.systemMetrics = next;
+                }
+            }, console.error);
     }
 
 }

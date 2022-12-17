@@ -11,5 +11,4 @@ describe('AppCommonService', () => {
         });
         appCommonService = TestBed.inject(AppCommonService);
     });
-
 });

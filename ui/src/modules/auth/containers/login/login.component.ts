@@ -10,23 +10,19 @@ import { AuthService } from '@modules/auth/services';
 })
 export class LoginComponent implements OnInit {
 
-    public username: string = '';
-    public password: string = '';
-    public remember: boolean = false;
+    public username = '';
+    public password = '';
+    public remember = false;
 
-    public failure: string = '';
+    public failure = '';
 
-    public constructor(
-        private auth: AuthService,
-        private router: Router,
-    ) {}
+    public constructor(private auth: AuthService, private router: Router) {}
 
     public ngOnInit(): void {
         // ignore
     }
 
     public async login(): Promise<void> {
-
         this.failure = '';
 
         try {
@@ -36,7 +32,6 @@ export class LoginComponent implements OnInit {
             console.error('Login failed', e);
             this.failure = 'Failed to login';
         }
-
     }
 
 }

@@ -14,9 +14,7 @@ export class MaintenanceComponent implements OnInit {
         success: boolean;
     };
 
-    public constructor(
-        private maintenance: MaintenanceService,
-    ) {}
+    public constructor(private maintenance: MaintenanceService) {}
 
     public ngOnInit(): void {
         // ignore

@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 export const NavigationServiceStub: Partial<NavigationService> = {
     sideNavVisible$: () => of(true),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    toggleSideNav: (visibility?: boolean) => ({ }),
+    toggleSideNav: (visibility?: boolean) => ({}),
     routeData$: () => of({} as SBRouteData),
     currentURL$: () => of('TEST_URL'),
 };

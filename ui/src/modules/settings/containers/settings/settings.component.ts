@@ -34,31 +34,30 @@ export class SettingsComponent implements OnInit {
 
     public serverCfgProps = this.getServerCfgProps();
 
-    public constructor(
-        public appCommon: AppCommonService,
-    ) {}
+    public constructor(public appCommon: AppCommonService) {}
 
     public onSubmit(): void {
         this.loading = true;
-        this.appCommon.updateManagerConfig(
-            this.config,
-        ).toPromise().then(
-            () => {
-                this.loading = false;
-                this.outcomeBadge = {
-                    message: 'Successfully updated config',
-                    success: true,
-                };
-            },
-            (err) => {
-                console.error(err);
-                this.loading = false;
-                this.outcomeBadge = {
-                    message: 'Failed to update config. See manager logs for details',
-                    success: false,
-                };
-            },
-        );
+        this.appCommon
+            .updateManagerConfig(this.config)
+            .toPromise()
+            .then(
+                () => {
+                    this.loading = false;
+                    this.outcomeBadge = {
+                        message: 'Successfully updated config',
+                        success: true,
+                    };
+                },
+                (err) => {
+                    console.error(err);
+                    this.loading = false;
+                    this.outcomeBadge = {
+                        message: 'Failed to update config. See manager logs for details',
+                        success: false,
+                    };
+                },
+            );
     }
 
     public ngOnInit(): void {
@@ -67,13 +66,13 @@ export class SettingsComponent implements OnInit {
 
     public reset(): void {
         this.loading = true;
-        this.appCommon.fetchManagerConfig().toPromise().then(
-            (config) => {
+        this.appCommon
+            .fetchManagerConfig()
+            .toPromise()
+            .then((config) => {
                 this.config = config;
                 this.loading = false;
-            },
-            console.error,
-        );
+            }, console.error);
     }
 
     public addDiscordChannel(): void {
@@ -88,7 +87,8 @@ export class SettingsComponent implements OnInit {
             .filter((x) => {
                 const { type } = this.schema.definitions.ServerCfg.properties[x];
 
-                const included = ['string', 'number'].includes(type)
+                const included
+                    = ['string', 'number'].includes(type)
                     && !(['motd', 'motdInterval', 'Missions'] as ServerCfgKey[]).includes(x);
 
                 console.log(`${x}: ${included}`);

@@ -17,7 +17,6 @@ import * as dashboardComponents from './components';
 import * as dashboardContainers from './containers';
 import { NgxGaugeModule } from 'ngx-gauge';
 
-
 @NgModule({
     imports: [
         CommonModule,

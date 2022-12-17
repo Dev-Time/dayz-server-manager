@@ -5,9 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CardComponent } from './card.component';
 
 @Component({
-    template: `
-        <sb-card [someInput]="someInput" (someFunction)="someFunction($event)"></sb-card>
-    `,
+    template: ` <sb-card [someInput]="someInput" (someFunction)="someFunction($event)"></sb-card> `,
 })
 class TestHostComponent {
     // someInput = 1;

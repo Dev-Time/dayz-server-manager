@@ -1,6 +1,7 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { VersionComponent } from './version.component';
 
 @Component({
@@ -29,9 +30,7 @@ describe('VersionComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [TestHostComponent, VersionComponent],
-            imports: [
-                NoopAnimationsModule,
-            ],
+            imports: [NoopAnimationsModule],
             providers: [],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
@@ -49,9 +48,6 @@ describe('VersionComponent', () => {
     });
 
     it('should display the component', () => {
-        expect(
-            hostComponentNE.querySelector('sbpro-version'),
-        ).toEqual(jasmine.anything());
+        expect(hostComponentNE.querySelector('sbpro-version')).toEqual(jasmine.anything());
     });
-
 });

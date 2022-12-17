@@ -14,8 +14,8 @@ export class Requirements implements IService {
     private readonly DX11_MARKER_DLL = 'XAPOFX1_5.dll';
     private readonly POSSIBLE_PATHS = ['C:/Windows/System32', 'C:/Windows/SysWOW64'];
 
-    private readonly REG_WIN_ERRORS =
-    'Windows Registry Editor Version 5.00\n'
+    private readonly REG_WIN_ERRORS
+        = 'Windows Registry Editor Version 5.00\n'
     + '\n'
     + '[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\Windows Error Reporting]\n'
     + '"DontShowUI"=dword:00000001';
