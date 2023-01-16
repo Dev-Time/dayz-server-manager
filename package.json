@@ -136,6 +136,6 @@
     "fs-extra": "^11.0.0",
     "node-schedule": "2.1.1",
     "reflect-metadata": "0.1.13",
-    "tail": "2.2.5"
+    "tail": "2.2.6"
   }
 }
