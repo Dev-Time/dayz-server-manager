@@ -120,7 +120,7 @@
     "ts-mock-imports": "^1.3.4",
     "ts-node": "^10.0.0",
     "typescript": "^4.2.3",
-    "typescript-json-schema": "^0.57.0"
+    "typescript-json-schema": "^0.58.0"
   },
   "dependencies": {
     "@senfo/battleye": "2.0.3",
