@@ -67,7 +67,7 @@
         "@types/jasminewd2": "2.0.10",
         "@types/leaflet": "^1.7.0",
         "@types/node": "18.14.0",
-        "@types/object-hash": "3.0.2",
+        "@types/object-hash": "3.0.3",
         "@types/uuid": "9.0.2",
         "@types/xml2js": "0.4.11",
         "bootstrap": "5.3.1",
