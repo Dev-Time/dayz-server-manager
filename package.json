@@ -103,7 +103,7 @@
     "@types/sinon": "^10.0.0",
     "@types/sinon-chai": "^3.2.5",
     "@types/table": "^6.0.0",
-    "@types/tail": "2.2.1",
+    "@types/tail": "2.2.2",
     "@types/ws": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
