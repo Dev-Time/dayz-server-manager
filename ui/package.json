@@ -37,7 +37,7 @@
         "@fortawesome/free-regular-svg-icons": "6.2.1",
         "@fortawesome/free-solid-svg-icons": "6.2.1",
         "@ng-bootstrap/ng-bootstrap": "8.0.4",
-        "@ng-select/ng-select": "6.1.0",
+        "@ng-select/ng-select": "11.2.0",
         "ag-grid-angular": "25.3.0",
         "ag-grid-community": "25.3.0",
         "chart.js": "2.9.4",
