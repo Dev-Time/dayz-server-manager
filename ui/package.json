@@ -42,7 +42,7 @@
         "ag-grid-community": "25.3.0",
         "chart.js": "2.9.4",
         "leaflet": "1.9.4",
-        "ngx-gauge": "3.0.0",
+        "ngx-gauge": "8.0.0",
         "object-hash": "3.0.0",
         "reflect-metadata": "0.1.13",
         "rxjs": "6.6.7",
